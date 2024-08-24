@@ -2,33 +2,43 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
-const path = require("path");
-const fs = require("fs");
 require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 3000;
-const publicDir = path.join(__dirname, "public");
-const userRoutes = require("./Routes/routes");
+const userRoutes = require("./Routes/main.routes");
 
-app.use(cors());
+app.use(
+    cors({
+        origin: [
+            "http://192.168.43.107:5173",
+            "http://localhost:5173",
+        ],
+        credentials: true,
+    })
+);
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use((req, res, next) => {
-    if (!fs.existsSync(publicDir)) {
-        fs.mkdirSync(publicDir);
-    }
-    next();
-});
-app.use("/api", userRoutes);
+app.use((req,res,next) => {
+	console.log("user request details", {
+        ip: req.ip,
+        from: req.headers.origin,
+        for: req.url,
+        protocol: req.protocol,
+		secure: req.secure,
+		
+    });
+	next()
+})
+app.use("/api/request", userRoutes);
 
 mongoose
-    .connect(process.env.MONGO_URI, {
-        useNewUrlParser: true,
-    })
-    .catch((error) => handleError(error));
+	.connect(process.env.MONGO_URI, {
+		useNewUrlParser: true,
+	})
+	.catch((error) => handleError(error));
 
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+	console.log(`Server is running on http://localhost:${port}`);
 });
