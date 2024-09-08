@@ -1,6 +1,6 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-
+const url = import.meta.env.VITE_API_URL;
 const makeRequest = async (method, url, data, options = {}) => {
     const toastId = toast.loading("Processing your request...");
 
@@ -10,7 +10,7 @@ const makeRequest = async (method, url, data, options = {}) => {
             throw new Error("Invalid HTTP method");
         }
         const reqOptions = {
-            url: `http://localhost:5000/api${url}`,
+            url: `${url}/api${url}`,
             method: method,
             data: data,
             headers: {
