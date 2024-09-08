@@ -10,7 +10,7 @@ const userRoutes = require("./Routes/main.routes");
 
 app.use(
     cors({
-        origin:"*",
+        origin:"https://clouddata-net.onrender.com",
         credentials: true,
     })
 );
