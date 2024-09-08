@@ -34,8 +34,8 @@ mongoose
 	.connect(process.env.MONGO_URI, {
 		useNewUrlParser: true,
 	})
-	.catch((error) => handleError(error));
+	.catch((error) => console.log(error));
 
 app.listen(port, () => {
-	console.log(`Server is running on http://localhost:${port}`);
+	console.log(`Server is running on ${port}`);
 });
