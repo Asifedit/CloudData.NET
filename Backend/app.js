@@ -5,15 +5,12 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 9000;
 const userRoutes = require("./Routes/main.routes");
 
 app.use(
     cors({
-        origin: [
-            "http://192.168.43.107:5173",
-            "http://localhost:5173",
-        ],
+        origin:*,
         credentials: true,
     })
 );
